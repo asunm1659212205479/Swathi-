@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz-Questions</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="box" id="questionscreen"  >
+        <div class="title">Quiz-Web Development Quiz</div>
+        <div class="header">
+            <div class="score">SCORE : <span>0</span></div>
+            <div class="timerBox">TIMER LEFT : <span>03:20</span></div>
+        </div>
+    <div class="question">
+        What is the purpose of the meta tag in HTML?
+    </div>
+    <div class="options">
+        <span onclick="checkAnswer(this)" data-opt="0"></span>
+        <span onclick="checkAnswer(this)" data-opt="1"></span>
+        <span onclick="checkAnswer(this)" data-opt="2"></span>
+        <span onclick="checkAnswer(this)" data-opt="3"></span>
+    </div>
+    <div class="footer">
+        <button id="nextbutton">Next</button>
+        <button>Solution</button>
+    </div>
+    </div>
+    <script>
+        let index=0;
+        let score=0;
+        let wrong=0;
+
+        let quiz=[
+    {
+    question: " What is the purpose of the meta tag in HTML?",
+    options:[
+        " To create hyperlinks",
+        "To define metadata about an HTML document",
+        " To add styling to a webpage",
+        "To include JavaScript in a webpage"
+    ],
+    answer: 1,
+    },
+    {
+    question: " Which of the following CSS properties is used to change the text color of an element?",
+    options:[
+        "font-color",
+        "text-color",
+        "color",
+        "background-color"
+    ],
+    answer: 2,
+    },
+    {
+    question: "In JavaScript, what is the result of the expression typeof null?",
+    options:[
+        "object",
+        "null",
+        "undefined",
+        "number"
+    ],
+    answer: 0,
+    },   
+    {
+    question: "Which HTTP method is typically used to submit form data to a server?",
+    options:[
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+    ],
+    answer: 1,
+    },  
+    { 
+    question: "What is the primary purpose of a CSS class selector?",
+    options:[
+        " To select elements with a specific ID",
+        " To select elements based on their type",
+        " To select elements with a specific class attribute",
+        "To select elements based on their position in the document"
+    ],
+    answer: 2,
+    },
+    {
+    question: "What does the acronym AJAX stand for in web development?",
+    options:[
+        "Asynchronous JavaScript and XML",
+        "Advanced JavaScript and XML",
+        " Asynchronous JSON and XML",
+        "Advanced JSON and XML"
+    ],
+    answer: 0,
+    },
+    {
+    question: "In which HTML element do we put the JavaScript code?",
+    options:[
+        " <js>",
+        "<javascript>",
+        "<script>",
+        "<code>"
+    ],
+    answer: 2,
+    },
+    {
+    question: "Which of the following is a JavaScript framework?",
+    options:[
+        "Bootstrap",
+        "jQuery",
+        "Laravel",
+        "Django"
+    ],
+    answer: 1,
+    },
+    {
+    question: "Which CSS property controls the spacing between lines of text?",
+    options:[
+        "line-height",
+        "letter-spacing",
+        " text-spacing",
+        " word-spacing"
+    ],
+    answer: 0,
+    },  
+    {
+    question: "Which of the following is a valid JavaScript variable declaration?",
+    options:[
+        "var 1name;",
+        "var _name;",
+        "var -name;",
+        "var .name;"
+    ],
+    answer: 1,   
+    }
+];
+function checkAnswer(options){
+        $(".options span").removeClass("right wrong");
+         $(".options span").off('click');
+        let optionClicked=$(options).data("opt");
+        let correctAnswer=quiz[index].answer;
+        if(optionClicked==correctAnswer){
+            $(options).addClass("right");
+            score++;
+        }
+        else{
+            $(options).addClass("wrong");
+            $(".options span").eq(correctAnswer).addClass("right");
+            wrong++;
+        }
+        $(".score span").text(score);
+       
+        }
+
+function printQuestion(i){
+
+$(".question").text(quiz[i].question);
+$(".options span").eq(0).text(quiz[i].options[0]);
+$(".options span").eq(1).text(quiz[i].options[1]);
+$(".options span").eq(2).text(quiz[i].options[2]);
+$(".options span").eq(3).text(quiz[i].options[3]);
+$(".options span").removeClass("right wrong");
+$(".options span").off('click').on('click',function(){
+   checkAnswer(this);
+});
+}
+
+
+$(function(){
+            let totaltime=200;
+            let min=0;
+            let sec=0;
+            let counter=0;
+            let timer=setInterval(function(){
+                counter++;
+                min=Math.floor((totaltime-counter)/60);
+                sec=(totaltime-counter)%60;
+        
+                $(".timerBox span").text(min + ":" + (sec<10?"0":"")+sec);
+                if(counter>=totaltime){
+                    clearInterval(timer);
+                    console.log("Time's up!");
+                    showResults();
+                }
+            }, 1000);
+                
+            printQuestion(index);
+
+            $("#nextbutton").click(function(){
+                index++;
+                if(index<quiz.length){
+                    printQuestion(index);
+                }
+                else{
+                    showResults();
+                }
+            });
+        });
+        function showResults(){
+            localStorage.setItem("totalQuestions",quiz.length);
+            localStorage.setItem("correctAnswers",score);
+            localStorage.setItem("wrongAnswers",wrong);
+            window.location.href="result.html";
+        }
+        </script>
+</body>
+</html>

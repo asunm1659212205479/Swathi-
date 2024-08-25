@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz-Result</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div  id="resultscreen" class="box">
+        <div class="title">Quiz Score</div>
+        <div class="resultbox">
+         <label>Questions : </label>
+         <span id="totalquestion">10</span>
+         <label>Correct : </label>
+         <span id="correctanswers">1</span>
+         <label>Wrong : </label>
+         <span id="wronganswers">1</span>
+        </div>
+        <div class="buttonbox">
+         <a href="Quiz.html">START AGAIN</a>
+        </div>
+     </div>
+     
+<script>
+
+    $(document).ready(function () {
+        let totalQuestions = localStorage.getItem("totalQuestions");
+        
+        let correctAnswers = localStorage.getItem("correctAnswers");
+        let wrongAnswers = localStorage.getItem("wrongAnswers");
+
+        $("#totalquestion").text(totalQuestions);
+        $("#correctanswers").text(correctAnswers);
+        $("#wronganswers").text(wrongAnswers);
+    });
+</script>
+
+</body>
+</html>
